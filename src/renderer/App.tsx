@@ -1,7 +1,7 @@
+/* eslint-disable react/button-has-type */
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
-//import './App.css';
-import './test.css';
+// import icon from '../../assets/icon.svg';
+// import './App.css';
 
 function Hello() {
   return (
@@ -16,7 +16,7 @@ function Hello() {
           width="1920"
           height="1080"
           className="img-fluid"
-        ></canvas>
+        />
       </div>
       <div className="mb-3">
         <button id="toggleFeedButton">Stop Video</button>
