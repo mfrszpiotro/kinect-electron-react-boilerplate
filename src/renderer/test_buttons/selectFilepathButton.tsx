@@ -4,8 +4,6 @@
 /* eslint-disable react/function-component-definition */
 /* eslint-disable react/require-default-props */
 import React from 'react';
-import child_process from 'child_process';
-import path from 'path';
 
 export interface IButtonProps {
   children?: React.ReactNode;
@@ -15,19 +13,13 @@ export interface IButtonProps {
     | undefined;
 }
 
-const RunComparisonButton: React.FC<IButtonProps> = ({
+const SelectFilepathButton: React.FC<IButtonProps> = ({
   children,
   onClick = () => {
-    console.log('process starts');
-    console.log(__dirname);
-    const process = child_process.execFileSync(
-      path.join(
-        'C:/Users/user/Desktop/kinect-electron-react-boilerplate/src/process_ollie',
-        'processing_app.exe',
-      ),
-    );
-    console.log(process);
-    console.log('process has ended');
+    window.myApi.ipcRenderer.once('ipc-example', (arg) => {
+      console.log(arg);
+    });
+    window.myApi.ipcRenderer.sendMessage('ipc-example', ['ping']);
   },
   ...props
 }) => {
@@ -43,4 +35,4 @@ const RunComparisonButton: React.FC<IButtonProps> = ({
   );
 };
 
-export default RunComparisonButton;
+export default SelectFilepathButton;
