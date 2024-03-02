@@ -1,25 +1,14 @@
-/* eslint-disable camelcase */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/function-component-definition */
-/* eslint-disable react/require-default-props */
-import React from 'react';
 import child_process from 'child_process';
 import path from 'path';
+import React from 'react';
 
-export interface IButtonProps {
-  children?: React.ReactNode;
+export interface ButtonProps {
+  children: React.ReactNode;
   props?: any;
-  onClick?:
-    | ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
-    | undefined;
 }
 
-const RunComparisonButton: React.FC<IButtonProps> = ({
-  children,
-  onClick = () => {
-    console.log('process starts');
-    console.log(__dirname);
+function RunComparisonButton({ children, ...props }: ButtonProps) {
+  const handleOnClick = () => {
     try {
       child_process.execFileSync(
         path.join(
@@ -33,23 +22,16 @@ const RunComparisonButton: React.FC<IButtonProps> = ({
       );
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(`${error.name}: ${error.message}`);
+        console.error(`${error.name}: ${error.message}`);
       }
     }
-    console.log('process has ended');
-  },
-  ...props
-}) => {
-  // @ts-ignore
-  const handleOnClick = (e: MouseEvent<Element>) => {
-    onClick(e);
   };
 
   return (
-    <button onClick={handleOnClick} {...props}>
+    <button type="button" onClick={handleOnClick} {...props}>
       {children}
     </button>
   );
-};
+}
 
 export default RunComparisonButton;
