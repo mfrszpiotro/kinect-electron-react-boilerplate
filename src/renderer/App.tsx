@@ -1,5 +1,6 @@
 /* eslint-disable react/button-has-type */
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import RunComparisonButton from './test-buttons/runComparisonButton';
 // import icon from '../../assets/icon.svg';
 // import './App.css';
 
@@ -10,7 +11,8 @@ function Hello() {
         <h1 className="bd-title">Color Stream</h1>
       </div>
       <p>This demo shows the color stream in an html canvas element.</p>
-      <div className="scaled">
+      <RunComparisonButton>Test alerts</RunComparisonButton>
+      <div>
         <canvas
           id="outputCanvas"
           width="1920"
