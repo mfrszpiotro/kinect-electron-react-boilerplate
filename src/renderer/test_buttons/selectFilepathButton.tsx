@@ -1,4 +1,5 @@
 import React from 'react';
+import CHANNELS from '../../ipc_channels';
 
 export interface ButtonProps {
   children: React.ReactNode;
@@ -6,11 +7,12 @@ export interface ButtonProps {
 }
 
 function SelectFilepathButton({ children, ...props }: ButtonProps) {
+  const { dialog_open_file } = CHANNELS;
   const handleOnClick = () => {
-    window.myApi.ipcRenderer.once('ipc-example', (arg) => {
+    window.electronIpc.once(dialog_open_file, (arg) => {
       console.log(arg);
     });
-    window.myApi.ipcRenderer.sendMessage('ipc-example', ['ping']);
+    window.electronIpc.sendMessage(dialog_open_file);
   };
 
   return (

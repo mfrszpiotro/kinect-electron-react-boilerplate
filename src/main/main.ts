@@ -10,29 +10,30 @@
  */
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-
-class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
+import CHANNELS from '../ipc_channels';
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
+const { dialog_open_file } = CHANNELS;
+ipcMain.on(dialog_open_file, async (event) => {
+  const filepath = dialog.showOpenDialogSync({
+    defaultPath: __dirname,
+    properties: ['openFile'],
+  });
+  event.reply(dialog_open_file, filepath);
+});
+
+const { ipc_example } = CHANNELS;
+ipcMain.on(ipc_example, async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   dialog.showOpenDialogSync({
     defaultPath: __dirname,
     properties: ['openFile'],
   });
-  event.reply('ipc-example', msgTemplate(`pong + ${__dirname}`));
+  event.reply(ipc_example, msgTemplate(`pong + ${__dirname}`));
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -112,10 +113,6 @@ const createWindow = async () => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
 };
 
 /**

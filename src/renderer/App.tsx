@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import RunComparisonButton from './test_buttons/runComparisonButton';
 import SelectFilepathButton from './test_buttons/selectFilepathButton';
@@ -23,7 +22,9 @@ function Hello() {
         />
       </div>
       <div className="mb-3">
-        <button id="toggleFeedButton">Stop Video</button>
+        <button type="button" id="toggleFeedButton">
+          Stop Video
+        </button>
       </div>
     </div>
   );
